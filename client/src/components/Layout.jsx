@@ -1,14 +1,12 @@
-import Navbar from "./Navbar";
+import Navbar from './Navbar'
 
 const Layout = ({children}) => {
-    return(
-        <>
-        <main className="bg-stone-200 min-h-screen">
+  return (
+    <div className="min-h-screen bg-stone-200 py-4 px-6">
         <Navbar/>
-        <div className="p-4 mx-10 grid grid-cols-1 md:grid-cols-2 gap-x-10">{children}</div>
-        </main>
-        </>
-    )
+        {children}
+    </div>
+  )
 }
 
-export default Layout;
+export default Layout
