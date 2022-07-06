@@ -1,15 +1,27 @@
 import React, { useState } from 'react'
-
+import {useNavigate,Link} from 'react-router-dom'
+import axios from 'axios';
 function Login() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-
-    const loginHandler = (e) => {
+   const navigate = useNavigate();
+    const loginHandler = async(e) => {
         e.preventDefault();
-        const loginData = {
+        const newData = {
             email,password
         }
-        console.log(loginData);
+
+        try{
+        const res = await axios.post("/auth/login",newData);
+
+        if(!res.err)
+        { localStorage.setItem("user",JSON.stringify(res.data));
+
+        navigate("/");
+        }
+        }catch(err){
+            console.log(err);
+        }
         setEmail("");
         setPassword("");
 
@@ -28,7 +40,7 @@ function Login() {
             value={password}
             onChange={(e)=>setPassword(e.target.value)} className="p-2 rounded-2xl focus:outline-none border-2 border-stone-900"  type="password" placeholder="password"/>
             <input className="my-2 p-2 rounded-2xl focus:outline-none bg-stone-900 text-stone-200"  type="submit" />
-            <span className="text-stone-700 text-sm flex gap-x-2">New User go to <p className="text-red-500">Register</p></span>
+            <span className="text-stone-700 text-sm flex gap-x-2">New User go to <Link to="/register" className="text-red-500">Register</Link></span>
         </form>
     </div>
 

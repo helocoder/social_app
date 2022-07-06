@@ -1,17 +1,32 @@
 import { useState } from "react";
 import { BsEyeFill,BsEyeSlashFill } from "react-icons/bs";
+import axios from 'axios';
+import {useNavigate,Link} from "react-router-dom";
+
+
 const Register = () => {
     const [username,setUsername] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [visible,setVisible] = useState(false);
-    const registerHandler = (e) => {
+    const navigate = useNavigate();
+
+
+    const registerHandler = async(e) => {
         e.preventDefault();
 
         const newUser = {
             username,email,password
         }
-        console.log(newUser);
+        
+        try{
+        const res = await axios.post("/auth/register",newUser)
+
+        navigate("/login");
+        }catch(err){
+            console.log(err);
+        }
+
 
         setUsername("");
         setEmail("");
@@ -43,7 +58,7 @@ const Register = () => {
                   className="text-red-500 text-lg absolute right-5 top-3"/>}
                  </div>
                 <input className="my-2 p-2 rounded-2xl focus:outline-none bg-stone-900 text-stone-200"  type="submit" />
-                <span className="text-stone-700 text-sm flex gap-x-2">Already a user go to <p className="text-red-500">Login</p></span>
+                <span className="text-stone-700 text-sm flex gap-x-2">Already a user go to <Link to="/login" className="text-red-500">Login</Link></span>
             </form>
         </div>
 

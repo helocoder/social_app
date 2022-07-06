@@ -1,9 +1,22 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { BsSearch,BsPersonFill } from "react-icons/bs";
+import {useNavigate} from 'react-router-dom';
 
 const Navbar = () => {
-    const [auth,setAuth] = useState(false);
+    const user = localStorage.getItem('user');
+    const [auth,setAuth] = useState(user?true:false);
     const [search,setSearch] = useState("");
+    const navigate = useNavigate();
+
+    const authHandler = () => {
+        setAuth(!auth);  
+        if(auth){
+            localStorage.removeItem('user');
+            navigate("/login")
+        }
+         
+    }
+
     return(
         <div className="grid text-stone-200 grid-cols-3 w-4/5 mx-auto bg-stone-800 rounded-2xl items-center justify-between h-20">
             <div className="ml-4">
@@ -18,7 +31,7 @@ const Navbar = () => {
 
             <div className="flex justify-end mr-4 items-center">
                 <button className=" px-4 py-2 rounded-2xl bg-stone-200 text-stone-900 border-none font-bold hover:bg-red-500" 
-                onClick={()=>setAuth(!auth)}>{auth?"Log Out":"Log In"}</button>
+                onClick={authHandler}>{auth?"Log Out":"Log In"}</button>
                 <BsPersonFill className="text-stone-200 text-2xl mx-3"/>
             </div>
         </div>
